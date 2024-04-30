@@ -95,7 +95,7 @@ function DateField () {
   return (
     <ComponentField>
       <div className='box dropdown'>
-        <span className='govuk-body govuk-!-font-size-14'>dd/mm/yyyy</span>
+        <span className='govuk-body govuk-!-font-size-16'>dd/mm/yyyy</span>
       </div>
     </ComponentField>
   )
@@ -105,7 +105,7 @@ function DateTimeField () {
   return (
     <ComponentField>
       <div className='box large dropdown'>
-        <span className='govuk-body govuk-!-font-size-14'>dd/mm/yyyy hh:mm</span>
+        <span className='govuk-body govuk-!-font-size-16'>dd/mm/yyyy hh:mm</span>
       </div>
     </ComponentField>
   )
@@ -115,7 +115,7 @@ function TimeField () {
   return (
     <ComponentField>
       <div className='box'>
-        <span className='govuk-body govuk-!-font-size-14'>hh:mm</span>
+        <span className='govuk-body govuk-!-font-size-16'>hh:mm</span>
       </div>
     </ComponentField>
   )

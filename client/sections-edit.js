@@ -38,14 +38,14 @@ class SectionsEdit extends React.Component {
               <ul className='govuk-list'>
                 {sections.map((section, index) => (
                   <li key={section.name}>
-                    <a href='#' onClick={e => this.onClickSection(e, section)}>
+                    <a className='govuk-link' href='#' onClick={e => this.onClickSection(e, section)}>
                       {section.title}
                     </a>
                   </li>
                 ))}
                 <li>
                   <hr />
-                  <a href='#' onClick={e => this.onClickAddSection(e)}>Add section</a>
+                  <a className='govuk-link' href='#' onClick={e => this.onClickAddSection(e)}>Add section</a>
                 </li>
               </ul>
             )}

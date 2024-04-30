@@ -9,7 +9,7 @@ module.exports = {
   plugin: {
     name: pkg.name,
     version: pkg.version,
-    dependencies: 'vision',
+    dependencies: '@hapi/vision',
     register: (server, options) => {
       const { path } = options
       let data = require(path)
@@ -46,9 +46,9 @@ module.exports = {
             return data
           },
           validate: {
-            query: {
+            query: joi.object().keys({
               format: joi.boolean()
-            }
+            })
           }
         }
       })

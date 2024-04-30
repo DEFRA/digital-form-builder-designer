@@ -61,7 +61,7 @@ class Page extends React.Component {
         <div className='handle' onClick={(e) => this.showEditor(e, true)} />
         <div className='govuk-!-padding-top-2 govuk-!-padding-left-2 govuk-!-padding-right-2'>
           <h3 className='govuk-heading-s'>
-            {section && <span className='govuk-caption-m govuk-!-font-size-14'>{section.title}</span>}
+            {section && <span className='govuk-caption-m govuk-!-font-size-16'>{section.title}</span>}
             {pageTitle}
           </h3>
         </div>
@@ -71,7 +71,7 @@ class Page extends React.Component {
           lockToContainerEdges useDragHandle />
 
         <div className='govuk-!-padding-2'>
-          <a className='preview pull-right govuk-body govuk-!-font-size-14'
+          <a className='preview pull-right govuk-body govuk-!-font-size-16'
             href={page.path} target='preview'>Open</a>
           <div className='button active'
             onClick={e => this.setState({ showAddComponent: true })} />

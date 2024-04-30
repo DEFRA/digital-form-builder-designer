@@ -38,14 +38,14 @@ class ListsEdit extends React.Component {
               <ul className='govuk-list'>
                 {lists.map((list, index) => (
                   <li key={list.name}>
-                    <a href='#' onClick={e => this.onClickList(e, list)}>
+                    <a className='govuk-link' href='#' onClick={e => this.onClickList(e, list)}>
                       {list.title}
                     </a>
                   </li>
                 ))}
                 <li>
                   <hr />
-                  <a href='#' onClick={e => this.onClickAddList(e)}>Add list</a>
+                  <a className='govuk-link' href='#' onClick={e => this.onClickAddList(e)}>Add list</a>
                 </li>
               </ul>
             )}

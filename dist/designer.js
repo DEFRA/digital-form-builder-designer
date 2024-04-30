@@ -25792,7 +25792,7 @@
     return React$1.createElement(ComponentField, null, React$1.createElement("div", {
       className: "box dropdown"
     }, React$1.createElement("span", {
-      className: "govuk-body govuk-!-font-size-14"
+      className: "govuk-body govuk-!-font-size-16"
     }, "dd/mm/yyyy")));
   }
 
@@ -25800,7 +25800,7 @@
     return React$1.createElement(ComponentField, null, React$1.createElement("div", {
       className: "box large dropdown"
     }, React$1.createElement("span", {
-      className: "govuk-body govuk-!-font-size-14"
+      className: "govuk-body govuk-!-font-size-16"
     }, "dd/mm/yyyy hh:mm")));
   }
 
@@ -25808,7 +25808,7 @@
     return React$1.createElement(ComponentField, null, React$1.createElement("div", {
       className: "box"
     }, React$1.createElement("span", {
-      className: "govuk-body govuk-!-font-size-14"
+      className: "govuk-body govuk-!-font-size-16"
     }, "hh:mm")));
   }
 
@@ -26208,7 +26208,7 @@
         }, React$1.createElement("h3", {
           className: "govuk-heading-s"
         }, section && React$1.createElement("span", {
-          className: "govuk-caption-m govuk-!-font-size-14"
+          className: "govuk-caption-m govuk-!-font-size-16"
         }, section.title), pageTitle)), React$1.createElement(SortableList, {
           page: page,
           data: data,
@@ -26221,7 +26221,7 @@
         }), React$1.createElement("div", {
           className: "govuk-!-padding-2"
         }, React$1.createElement("a", {
-          className: "preview pull-right govuk-body govuk-!-font-size-14",
+          className: "preview pull-right govuk-body govuk-!-font-size-16",
           href: page.path,
           target: "preview"
         }, "Open"), React$1.createElement("div", {
@@ -28499,7 +28499,7 @@
         return React$1.createElement("div", {
           className: "menu"
         }, React$1.createElement("button", {
-          className: "govuk-button govuk-!-font-size-14".concat(this.state.showMenu ? ' govuk-!-margin-right-2' : ''),
+          className: "govuk-button govuk-!-font-size-16".concat(this.state.showMenu ? ' govuk-!-margin-right-2' : ''),
           onClick: function onClick() {
             return _this8.setState({
               showMenu: !_this8.state.showMenu
@@ -28508,42 +28508,42 @@
         }, "\u2630"), this.state.showMenu && React$1.createElement("span", {
           className: "menu-inner"
         }, React$1.createElement("button", {
-          className: "govuk-button govuk-!-font-size-14",
+          className: "govuk-button govuk-!-font-size-16",
           onClick: function onClick() {
             return _this8.setState({
               showAddPage: true
             });
           }
         }, "Add Page"), ' ', React$1.createElement("button", {
-          className: "govuk-button govuk-!-font-size-14",
+          className: "govuk-button govuk-!-font-size-16",
           onClick: function onClick() {
             return _this8.setState({
               showAddLink: true
             });
           }
         }, "Add Link"), ' ', React$1.createElement("button", {
-          className: "govuk-button govuk-!-font-size-14",
+          className: "govuk-button govuk-!-font-size-16",
           onClick: function onClick() {
             return _this8.setState({
               showEditSections: true
             });
           }
         }, "Edit Sections"), ' ', React$1.createElement("button", {
-          className: "govuk-button govuk-!-font-size-14",
+          className: "govuk-button govuk-!-font-size-16",
           onClick: function onClick() {
             return _this8.setState({
               showEditConditions: true
             });
           }
         }, "Edit Conditions"), ' ', React$1.createElement("button", {
-          className: "govuk-button govuk-!-font-size-14",
+          className: "govuk-button govuk-!-font-size-16",
           onClick: function onClick() {
             return _this8.setState({
               showEditLists: true
             });
           }
         }, "Edit Lists"), ' ', React$1.createElement("button", {
-          className: "govuk-button govuk-!-font-size-14",
+          className: "govuk-button govuk-!-font-size-16",
           onClick: function onClick() {
             return _this8.setState({
               showSummary: true

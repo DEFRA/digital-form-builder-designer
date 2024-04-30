@@ -6,7 +6,7 @@ module.exports = {
   plugin: {
     name: pkg.name,
     version: pkg.version,
-    dependencies: 'vision',
+    dependencies: '@hapi/vision',
     register: (server, options) => {
       const { playgroundModel } = options
 
@@ -46,9 +46,9 @@ module.exports = {
             return getData(request)
           },
           validate: {
-            query: {
+            query: joi.object().keys({
               format: joi.boolean()
-            }
+            })
           }
         }
       })

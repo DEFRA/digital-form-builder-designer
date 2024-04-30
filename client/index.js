@@ -242,25 +242,25 @@ class Menu extends React.Component {
 
     return (
       <div className='menu'>
-        <button className={`govuk-button govuk-!-font-size-14${this.state.showMenu ? ' govuk-!-margin-right-2' : ''}`}
+        <button className={`govuk-button govuk-!-font-size-16${this.state.showMenu ? ' govuk-!-margin-right-2' : ''}`}
           onClick={() => this.setState({ showMenu: !this.state.showMenu })}>☰</button>
         {this.state.showMenu && <span className='menu-inner'>
-          <button className='govuk-button govuk-!-font-size-14'
+          <button className='govuk-button govuk-!-font-size-16'
             onClick={() => this.setState({ showAddPage: true })}>Add Page</button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-14'
+          <button className='govuk-button govuk-!-font-size-16'
             onClick={() => this.setState({ showAddLink: true })}>Add Link</button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-14'
+          <button className='govuk-button govuk-!-font-size-16'
             onClick={() => this.setState({ showEditSections: true })}>Edit Sections</button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-14'
+          <button className='govuk-button govuk-!-font-size-16'
             onClick={() => this.setState({ showEditConditions: true })}>Edit Conditions</button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-14'
+          <button className='govuk-button govuk-!-font-size-16'
             onClick={() => this.setState({ showEditLists: true })}>Edit Lists</button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-14'
+          <button className='govuk-button govuk-!-font-size-16'
             onClick={() => this.setState({ showSummary: true })}>Summary</button>
 
           {playgroundMode && (
