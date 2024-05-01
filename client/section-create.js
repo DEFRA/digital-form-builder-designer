@@ -46,14 +46,14 @@ class SectionCreate extends React.Component {
           onClick={e => this.props.onCancel(e)}>Back</a>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='section-name'>Name</label>
-          <span className='govuk-hint'>This is used as a namespace in the JSON output for all pages in this section. Use `camelCasing` e.g. checkBeforeStart or personalDetails.</span>
+          <div className='govuk-hint'>This is used as a namespace in the JSON output for all pages in this section. Use `camelCasing` e.g. checkBeforeStart or personalDetails.</div>
           <input className='govuk-input' id='section-name' name='name'
             type='text' required pattern='^\S+'
             onBlur={this.onBlurName} />
         </div>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='section-title'>Title</label>
-          <span className='govuk-hint'>This text displayed on the page above the main title.</span>
+          <div className='govuk-hint'>This text displayed on the page above the main title.</div>
           <input className='govuk-input' id='section-title' name='title'
             type='text' required />
         </div>

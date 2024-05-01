@@ -347,15 +347,21 @@ class App extends React.Component {
   state = {}
 
   componentWillMount () {
+    const self = this
     window.fetch('/api/data').then(res => res.json()).then(data => {
-      data.save = this.save
-      this.setState({ loaded: true, data })
+      data.save = self.save
+      self.setState({ loaded: true, data })
     })
   }
 
   save = (updatedData) => {
+    const self = this
     return window.fetch(`/api/data`, {
       method: 'put',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(updatedData)
     }).then(res => {
       if (!res.ok) {
@@ -363,8 +369,8 @@ class App extends React.Component {
       }
       return res
     }).then(res => res.json()).then(data => {
-      data.save = this.save
-      this.setState({ data })
+      data.save = self.save
+      self.setState({ data })
 
       // Reload frame if split screen and in playground mode
       if (window.DFBD.playgroundMode) {

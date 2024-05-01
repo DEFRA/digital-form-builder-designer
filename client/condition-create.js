@@ -45,14 +45,14 @@ class ConditionCreate extends React.Component {
           onClick={e => this.props.onCancel(e)}>Back</a>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='condition-name'>Name</label>
-          <span className='govuk-hint'>Use `camelCasing` e.g. isSenior or hasClaims</span>
+          <div className='govuk-hint'>Use `camelCasing` e.g. isSenior or hasClaims</div>
           <input className='govuk-input govuk-!-width-three-quarters' id='condition-name' name='name'
             type='text' required pattern='^\S+'
             onBlur={this.onBlurName} />
         </div>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='condition-value'>Value</label>
-          <span className='govuk-hint'>This can be any <a href='https://www.npmjs.com/package/expr-eval' target='_blank'>matching expression</a></span>
+          <div className='govuk-hint'>This can be any <a href='https://www.npmjs.com/package/expr-eval' target='_blank'>matching expression</a></div>
           <Editor name='value' required />
         </div>
         <button className='govuk-button' type='submit'>Save</button>
