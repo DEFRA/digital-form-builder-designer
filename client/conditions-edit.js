@@ -9,7 +9,7 @@ class ConditionsEdit extends React.Component {
     e.preventDefault()
 
     this.setState({
-      condition: condition
+      condition
     })
   }
 
@@ -28,34 +28,42 @@ class ConditionsEdit extends React.Component {
 
     return (
       <div className='govuk-body'>
-        {!condition ? (
-          <div>
-            {this.state.showAddCondition ? (
-              <ConditionCreate data={data}
-                onCreate={e => this.setState({ showAddCondition: false })}
-                onCancel={e => this.setState({ showAddCondition: false })} />
-            ) : (
-              <ul className='govuk-list'>
-                {conditions.map((condition, index) => (
-                  <li key={condition.name}>
-                    <a href='#' onClick={e => this.onClickCondition(e, condition)}>
-                      {condition.name}
-                    </a>{' '}
-                    <small>{condition.value}</small>
-                  </li>
-                ))}
-                <li>
-                  <hr />
-                  <a href='#' onClick={e => this.onClickAddCondition(e)}>Add condition</a>
-                </li>
-              </ul>
+        {!condition
+          ? (
+            <div>
+              {this.state.showAddCondition
+                ? (
+                  <ConditionCreate
+                    data={data}
+                    onCreate={e => this.setState({ showAddCondition: false })}
+                    onCancel={e => this.setState({ showAddCondition: false })}
+                  />
+                  )
+                : (
+                  <ul className='govuk-list'>
+                    {conditions.map((condition, index) => (
+                      <li key={condition.name}>
+                        <a className='govuk-link govuk-link--no-visited-state' href='#' onClick={e => this.onClickCondition(e, condition)}>
+                          {condition.name}
+                        </a>{' '}
+                        <small>{condition.value}</small>
+                      </li>
+                    ))}
+                    <li>
+                      <hr />
+                      <a className='govuk-link govuk-link--no-visited-state' href='#' onClick={e => this.onClickAddCondition(e)}>Add condition</a>
+                    </li>
+                  </ul>
+                  )}
+            </div>
+            )
+          : (
+            <ConditionEdit
+              condition={condition} data={data}
+              onEdit={e => this.setState({ condition: null })}
+              onCancel={e => this.setState({ condition: null })}
+            />
             )}
-          </div>
-        ) : (
-          <ConditionEdit condition={condition} data={data}
-            onEdit={e => this.setState({ condition: null })}
-            onCancel={e => this.setState({ condition: null })} />
-        )}
       </div>
     )
   }

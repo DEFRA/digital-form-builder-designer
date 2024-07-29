@@ -1,4 +1,3 @@
-
 function Flyout (props) {
   if (!props.show) {
     return null

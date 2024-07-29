@@ -9,11 +9,12 @@ import LinkEdit from './link-edit'
 import LinkCreate from './link-create'
 import ListsEdit from './lists-edit'
 import SectionsEdit from './sections-edit'
+import GroupsEdit from './groups-edit'
 import ConditionsEdit from './conditions-edit'
 
 function getLayout (pages, el) {
   // Create a new directed graph
-  var g = new dagre.graphlib.Graph()
+  const g = new dagre.graphlib.Graph()
 
   // Set an object for the graph label
   g.setGraph({
@@ -24,28 +25,52 @@ function getLayout (pages, el) {
   })
 
   // Default to assigning a new object as a label for each new edge.
-  g.setDefaultEdgeLabel(function () { return {} })
+  g.setDefaultEdgeLabel(function () {
+    return {}
+  })
 
   // Add nodes to the graph. The first argument is the node id. The second is
   // metadata about the node. In this case we're going to add labels to each node
   pages.forEach((page, index) => {
     const pageEl = el.children[index]
 
-    g.setNode(page.path, { label: page.path, width: pageEl.offsetWidth, height: pageEl.offsetHeight })
+    g.setNode(page.path, {
+      label: page.path,
+      width: pageEl.offsetWidth,
+      height: pageEl.offsetHeight
+    })
   })
 
   // Add edges to the graph.
-  pages.forEach(page => {
-    if (Array.isArray(page.next)) {
-      page.next.forEach(next => {
-        // The linked node (next page) may not exist if it's filtered
-        const exists = pages.find(page => page.path === next.path)
-        if (exists) {
-          g.setEdge(page.path, next.path)
-        }
-      })
+  // pages.forEach((page) => {
+  //   if (Array.isArray(page.next)) {
+  //     page.next.forEach((next) => {
+  //       // The linked node (next page) may not exist if it's filtered
+  //       const exists = pages.find((page) => page.path === next.path)
+  //       if (exists) {
+  //         g.setEdge(page.path, next.path)
+  //       }
+  //     })
+  //   }
+  // })
+
+  for (let i = 0; i < pages.length; i++) {
+    const page1 = pages[i]
+
+    if (i !== (pages.length - 1)) {
+      g.setEdge(page1.path, pages[i + 1].path)
     }
-  })
+
+    if (page1.group) {
+      for (let j = i + 1; j < pages.length; j++) {
+        const page2 = pages[j]
+
+        if (page2.group === page1.group) {
+          g.setEdge(page1.path, page2.path)
+        }
+      }
+    }
+  }
 
   dagre.layout(g)
 
@@ -60,8 +85,8 @@ function getLayout (pages, el) {
   g.nodes().forEach((v, index) => {
     const node = g.node(v)
     const pt = { node }
-    pt.top = (node.y - node.height / 2) + 'px'
-    pt.left = (node.x - node.width / 2) + 'px'
+    pt.top = node.y - node.height / 2 + 'px'
+    pt.left = node.x - node.width / 2 + 'px'
     pos.nodes.push(pt)
   })
 
@@ -70,7 +95,7 @@ function getLayout (pages, el) {
     pos.edges.push({
       source: e.v,
       target: e.w,
-      points: edge.points.map(p => {
+      points: edge.points.map((p) => {
         const pt = {}
         pt.y = p.y
         pt.x = p.x
@@ -83,14 +108,14 @@ function getLayout (pages, el) {
 }
 
 class Lines extends React.Component {
-  state = {}
+  state = {};
 
   editLink = (edge) => {
     console.log('clicked', edge)
     this.setState({
       showEditor: edge
     })
-  }
+  };
 
   render () {
     const { layout, data } = this.props
@@ -98,24 +123,28 @@ class Lines extends React.Component {
     return (
       <div>
         <svg height={layout.height} width={layout.width}>
-          {
-            layout.edges.map(edge => {
-              const points = edge.points.map(points => `${points.x},${points.y}`).join(' ')
-              return (
-                <g key={points}>
-                  <polyline
-                    onClick={() => this.editLink(edge)}
-                    points={points} />
-                </g>
-              )
-            })
-          }
+          {layout.edges.map((edge) => {
+            const points = edge.points
+              .map((points) => `${points.x},${points.y}`)
+              .join(' ')
+            return (
+              <g key={points}>
+                <polyline onClick={() => this.editLink(edge)} points={points} />
+              </g>
+            )
+          })}
         </svg>
 
-        <Flyout title='Edit Link' show={this.state.showEditor}
-          onHide={e => this.setState({ showEditor: false })}>
-          <LinkEdit edge={this.state.showEditor} data={data}
-            onEdit={e => this.setState({ showEditor: false })} />
+        <Flyout
+          title='Edit Link'
+          show={this.state.showEditor}
+          onHide={(e) => this.setState({ showEditor: false })}
+        >
+          <LinkEdit
+            edge={this.state.showEditor}
+            data={data}
+            onEdit={(e) => this.setState({ showEditor: false })}
+          />
         </Flyout>
       </div>
     )
@@ -123,39 +152,42 @@ class Lines extends React.Component {
 }
 
 class Minimap extends React.Component {
-  state = {}
+  state = {};
 
   render () {
     const { layout, scale = 0.05 } = this.props
 
     return (
       <div className='minimap'>
-        <svg height={parseFloat(layout.height) * scale} width={parseFloat(layout.width) * scale}>
-          {
-            layout.edges.map(edge => {
-              const points = edge.points.map(points => `${points.x * scale},${points.y * scale}`).join(' ')
-              return (
-                <g key={points}>
-                  <polyline points={points} />
-                </g>
-              )
-            })
-          }
-          {
-            layout.nodes.map((node, index) => {
-              return (
-                <g key={node + index}>
-                  <a xlinkHref={`#${node.node.label}`}>
-                    <rect x={parseFloat(node.left) * scale}
-                      y={parseFloat(node.top) * scale}
-                      width={node.node.width * scale}
-                      height={node.node.height * scale}
-                      title={node.node.label} />
-                  </a>
-                </g>
-              )
-            })
-          }
+        <svg
+          height={parseFloat(layout.height) * scale}
+          width={parseFloat(layout.width) * scale}
+        >
+          {layout.edges.map((edge) => {
+            const points = edge.points
+              .map((points) => `${points.x * scale},${points.y * scale}`)
+              .join(' ')
+            return (
+              <g key={points}>
+                <polyline points={points} />
+              </g>
+            )
+          })}
+          {layout.nodes.map((node, index) => {
+            return (
+              <g key={node + index}>
+                <a xlinkHref={`#${node.node.label}`}>
+                  <rect
+                    x={parseFloat(node.left) * scale}
+                    y={parseFloat(node.top) * scale}
+                    width={node.node.width * scale}
+                    height={node.node.height * scale}
+                    title={node.node.label}
+                  />
+                </a>
+              </g>
+            )
+          })}
         </svg>
       </div>
     )
@@ -163,7 +195,7 @@ class Minimap extends React.Component {
 }
 
 class Visualisation extends React.Component {
-  state = {}
+  state = {};
 
   constructor () {
     super()
@@ -175,37 +207,48 @@ class Visualisation extends React.Component {
       const { data } = this.props
       const { pages } = data
       const layout = getLayout(pages, this.ref.current)
-
       this.setState({
         layout: layout.pos
       })
     }, 200)
   }
 
-  componentDidMount () {
-    this.scheduleLayout()
-  }
+  // componentDidMount () {
+  //   this.scheduleLayout()
+  // }
 
-  componentWillReceiveProps () {
-    this.scheduleLayout()
-  }
+  // componentWillReceiveProps () {
+  //   this.scheduleLayout()
+  // }
 
   render () {
     const { data } = this.props
     const { pages } = data
 
     return (
-      <div ref={this.ref} className='visualisation' style={this.state.layout &&
-        { width: this.state.layout.width, height: this.state.layout.height }}>
-        {pages.map((page, index) => <Page
-          key={index} data={data} page={page}
-          layout={this.state.layout && this.state.layout.nodes[index]} />
-        )}
-        {this.state.layout &&
-          <Lines layout={this.state.layout} data={data} />}
+      <div
+        ref={this.ref}
+        className='visualisation'
+        style={
+          this.state.layout && {
+            width: this.state.layout.width,
+            height: this.state.layout.height
+          }
+        }
+      >
+        {pages.map((page, index) => (
+          <Page
+            key={index}
+            data={data}
+            page={page}
+            layout={this.state.layout && this.state.layout.nodes[index]}
+          />
+        ))}
+        {this.state.layout && <Lines layout={this.state.layout} data={data} />}
 
-        {this.state.layout &&
-          <Minimap layout={this.state.layout} data={data} />}
+        {this.state.layout && (
+          <Minimap layout={this.state.layout} data={data} />
+        )}
       </div>
     )
   }
@@ -239,29 +282,71 @@ class Menu extends React.Component {
 
   render () {
     const { data, playgroundMode } = this.props
+    const pageSummary = (page) => {
+      const { path } = page
+      const group = page.group && data.groups.find(g => g.name === page.group)
+      const rtn = { path }
+
+      if (group?.condition && page.condition) {
+        rtn.condition = `${group.condition} and ${page.condition}`
+      } else if (group?.condition) {
+        rtn.condition = group.condition
+      } else if (page.condition) {
+        rtn.condition = page.condition
+      }
+
+      return rtn
+    }
 
     return (
       <div className='menu'>
-        <button className={`govuk-button govuk-!-font-size-16${this.state.showMenu ? ' govuk-!-margin-right-2' : ''}`}
-          onClick={() => this.setState({ showMenu: !this.state.showMenu })}>☰</button>
+        <button
+          className={`govuk-button govuk-!-font-size-16${this.state.showMenu ? ' govuk-!-margin-right-2' : ''}`}
+          onClick={() => this.setState({ showMenu: !this.state.showMenu })}
+        >☰
+        </button>
         {this.state.showMenu && <span className='menu-inner'>
-          <button className='govuk-button govuk-!-font-size-16'
-            onClick={() => this.setState({ showAddPage: true })}>Add Page</button>{' '}
+          <button
+            className='govuk-button govuk-!-font-size-16'
+            onClick={() => this.setState({ showAddPage: true })}
+          >Add Page
+          </button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-16'
-            onClick={() => this.setState({ showAddLink: true })}>Add Link</button>{' '}
+          <button
+            className='govuk-button govuk-!-font-size-16'
+            onClick={() => this.setState({ showAddLink: true })}
+          >Add Link
+          </button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-16'
-            onClick={() => this.setState({ showEditSections: true })}>Edit Sections</button>{' '}
+          <button
+            className='govuk-button govuk-!-font-size-16'
+            onClick={() => this.setState({ showEditSections: true })}
+          >Edit Sections
+          </button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-16'
-            onClick={() => this.setState({ showEditConditions: true })}>Edit Conditions</button>{' '}
+          <button
+            className='govuk-button govuk-!-font-size-16'
+            onClick={() => this.setState({ showEditGroups: true })}
+          >Edit Groups
+          </button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-16'
-            onClick={() => this.setState({ showEditLists: true })}>Edit Lists</button>{' '}
+          <button
+            className='govuk-button govuk-!-font-size-16'
+            onClick={() => this.setState({ showEditConditions: true })}
+          >Edit Conditions
+          </button>{' '}
 
-          <button className='govuk-button govuk-!-font-size-16'
-            onClick={() => this.setState({ showSummary: true })}>Summary</button>
+          <button
+            className='govuk-button govuk-!-font-size-16'
+            onClick={() => this.setState({ showEditLists: true })}
+          >Edit Lists
+          </button>{' '}
+
+          <button
+            className='govuk-button govuk-!-font-size-16'
+            onClick={() => this.setState({ showSummary: true })}
+          >Summary
+          </button>
 
           {playgroundMode && (
             <div className='govuk-!-margin-top-4'>
@@ -271,73 +356,97 @@ class Menu extends React.Component {
             </div>
           )}
 
-          <Flyout title='Add Page' show={this.state.showAddPage}
-            onHide={() => this.setState({ showAddPage: false })}>
+          <Flyout
+            title='Add Page' show={this.state.showAddPage}
+            onHide={() => this.setState({ showAddPage: false })}
+          >
             <PageCreate data={data} onCreate={() => this.setState({ showAddPage: false })} />
           </Flyout>
 
-          <Flyout title='Add Link' show={this.state.showAddLink}
-            onHide={() => this.setState({ showAddLink: false })}>
+          <Flyout
+            title='Add Link' show={this.state.showAddLink}
+            onHide={() => this.setState({ showAddLink: false })}
+          >
             <LinkCreate data={data} onCreate={() => this.setState({ showAddLink: false })} />
           </Flyout>
 
-          <Flyout title='Edit Sections' show={this.state.showEditSections}
-            onHide={() => this.setState({ showEditSections: false })}>
+          <Flyout
+            title='Edit Sections' show={this.state.showEditSections}
+            onHide={() => this.setState({ showEditSections: false })}
+          >
             <SectionsEdit data={data} onCreate={() => this.setState({ showEditSections: false })} />
           </Flyout>
 
-          <Flyout title='Edit Conditions' show={this.state.showEditConditions}
-            onHide={() => this.setState({ showEditConditions: false })} width='large'>
+          <Flyout
+            title='Edit Groups' show={this.state.showEditGroups}
+            onHide={() => this.setState({ showEditGroups: false })}
+          >
+            <GroupsEdit data={data} onCreate={() => this.setState({ showEditGroups: false })} />
+          </Flyout>
+
+          <Flyout
+            title='Edit Conditions' show={this.state.showEditConditions}
+            onHide={() => this.setState({ showEditConditions: false })} width='large'
+          >
             <ConditionsEdit data={data} onCreate={() => this.setState({ showEditConditions: false })} />
           </Flyout>
 
-          <Flyout title='Edit Lists' show={this.state.showEditLists}
-            onHide={() => this.setState({ showEditLists: false })} width='xlarge'>
+          <Flyout
+            title='Edit Lists' show={this.state.showEditLists}
+            onHide={() => this.setState({ showEditLists: false })} width='xlarge'
+          >
             <ListsEdit data={data} onCreate={() => this.setState({ showEditLists: false })} />
           </Flyout>
 
-          <Flyout title='Summary' show={this.state.showSummary} width='large'
-            onHide={() => this.setState({ showSummary: false })}>
+          <Flyout
+            title='Summary' show={this.state.showSummary} width='large'
+            onHide={() => this.setState({ showSummary: false })}
+          >
             <div className='js-enabled' style={{ paddingTop: '3px' }}>
               <div className='govuk-tabs' data-module='tabs'>
                 <h2 className='govuk-tabs__title'>Summary</h2>
                 <ul className='govuk-tabs__list'>
                   <li className='govuk-tabs__list-item'>
-                    <a className='govuk-tabs__tab' href='#'
+                    <a
+                      className='govuk-tabs__tab' href='#'
                       aria-selected={this.state.tab === 'model' ? 'true' : 'false'}
-                      onClick={e => this.setTab(e, 'model')}>Data Model</a>
+                      onClick={e => this.setTab(e, 'model')}
+                    >Data Model
+                    </a>
                   </li>
                   <li className='govuk-tabs__list-item'>
-                    <a className='govuk-tabs__tab' href='#'
+                    <a
+                      className='govuk-tabs__tab' href='#'
                       aria-selected={this.state.tab === 'json' ? 'true' : 'false'}
-                      onClick={e => this.setTab(e, 'json')}>JSON</a>
+                      onClick={e => this.setTab(e, 'json')}
+                    >JSON
+                    </a>
                   </li>
                   <li className='govuk-tabs__list-item'>
-                    <a className='govuk-tabs__tab' href='#'
+                    <a
+                      className='govuk-tabs__tab' href='#'
                       aria-selected={this.state.tab === 'summary' ? 'true' : 'false'}
-                      onClick={e => this.setTab(e, 'summary')}>Summary</a>
+                      onClick={e => this.setTab(e, 'summary')}
+                    >Summary
+                    </a>
                   </li>
                 </ul>
                 {this.state.tab === 'model' &&
                   <section className='govuk-tabs__panel'>
                     <DataModel data={data} />
-                  </section>
-                }
+                  </section>}
                 {this.state.tab === 'json' &&
                   <section className='govuk-tabs__panel'>
                     <pre>{JSON.stringify(data, null, 2)}</pre>
-                  </section>
-                }
+                  </section>}
                 {this.state.tab === 'summary' &&
                   <section className='govuk-tabs__panel'>
-                    <pre>{JSON.stringify(data.pages.map(page => page.path), null, 2)}</pre>
-                  </section>
-                }
+                    <pre>{JSON.stringify(data.pages.map(pageSummary), null, 2)}</pre>
+                  </section>}
               </div>
             </div>
           </Flyout>
-        </span>
-        }
+        </span>}
       </div>
     )
   }
@@ -356,10 +465,10 @@ class App extends React.Component {
 
   save = (updatedData) => {
     const self = this
-    return window.fetch(`/api/data`, {
+    return window.fetch('/api/data', {
       method: 'put',
       headers: {
-        'Accept': 'application/json',
+        Accept: 'application/json',
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(updatedData)

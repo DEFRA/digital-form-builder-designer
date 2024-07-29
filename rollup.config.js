@@ -10,7 +10,7 @@ export default {
     sourcemap: 'inline',
     format: 'iife',
     globals: {
-      'react': 'React',
+      react: 'React',
       'react-dom': 'ReactDOM'
     }
   },

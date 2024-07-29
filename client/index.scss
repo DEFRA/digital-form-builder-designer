@@ -24,7 +24,8 @@
     position: relative;
   
     .page {
-      position: absolute;
+      // position: absolute;
+      display: block;
       width: 240px;
       margin-bottom: 10px;
       box-sizing: border-box;
@@ -40,7 +41,7 @@
         background-color: #000;
     
         &:hover {
-          background-color: #ffbf47;
+          background-color: #ffdd00;
         }
       }
     
@@ -57,6 +58,10 @@
         a.preview {
           display: inline;
         }
+      }
+
+      &.conditional {
+        margin-left: 20px;
       }
     }
   }
@@ -78,7 +83,7 @@
       stroke-width: 1
     }
     rect:hover {
-      fill: #ffbf47;
+      fill: #ffdd00;
     }
   }
 }
@@ -92,7 +97,7 @@
   background-color: #006435;
 
   &.active:hover {
-    background-color: #ffbf47
+    background-color: #ffdd00
   }
 
   &.square {
@@ -111,7 +116,7 @@
   // padding: 6px;
 
   &:hover {
-    background-color: #ffbf47;
+    background-color: #ffdd00;
   }
 
   .line {
@@ -240,7 +245,7 @@
 }
 
 .dragging {
-  background-color: #ffbf47;
+  background-color: #ffdd00;
 }
 
 .govuk-table__row {
@@ -437,7 +442,7 @@ polyline {
   stroke: #4781ff;
 
   &:hover {
-    stroke: #ffbf47;
+    stroke: #ffdd00;
     opacity: 1;
   }
 
@@ -449,7 +454,7 @@ polyline {
 
 /* Syntax highlighting */
 .editor textarea:focus {
-  outline: 3px solid #ffbf47;
+  outline: 3px solid #ffdd00;
   outline-offset: 2px;
 }
 

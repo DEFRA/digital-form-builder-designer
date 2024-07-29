@@ -1,5 +1,4 @@
 import React from 'react'
-import Editor from './editor'
 import { clone } from './helpers'
 
 class LinkCreate extends React.Component {
@@ -61,17 +60,6 @@ class LinkCreate extends React.Component {
             {pages.map(page => (<option key={page.path} value={page.path}>{page.path}</option>))}
           </select>
         </div>
-
-        {/* <div className='govuk-form-group'>
-          <label className='govuk-label govuk-label--s' htmlFor='link-condition'>Condition (optional)</label>
-          <span id='link-condition-hint' className='govuk-hint'>
-            The link will only be used if the expression evaluates to truthy.
-          </span>
-          <Editor name='if' /> */}
-
-          {/* <input className='govuk-input' id='link-condition' name='if'
-            type='text' aria-describedby='link-condition-hint' /> */}
-        {/* </div> */}
 
         <button className='govuk-button' type='submit'>Save</button>
       </form>

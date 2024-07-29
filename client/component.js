@@ -5,25 +5,25 @@ import ComponentEdit from './component-edit'
 const DragHandle = SortableHandle(() => <span className='drag-handle'>&#9776;</span>)
 
 export const componentTypes = {
-  'TextField': TextField,
-  'TelephoneNumberField': TelephoneNumberField,
-  'NumberField': NumberField,
-  'EmailAddressField': EmailAddressField,
-  'TimeField': TimeField,
-  'DateField': DateField,
-  'DateTimeField': DateTimeField,
-  'DatePartsField': DatePartsField,
-  'DateTimePartsField': DateTimePartsField,
-  'MultilineTextField': MultilineTextField,
-  'RadiosField': RadiosField,
-  'CheckboxesField': CheckboxesField,
-  'SelectField': SelectField,
-  'YesNoField': YesNoField,
-  'UkAddressField': UkAddressField,
-  'Para': Para,
-  'Html': Html,
-  'InsetText': InsetText,
-  'Details': Details
+  TextField,
+  TelephoneNumberField,
+  NumberField,
+  EmailAddressField,
+  TimeField,
+  DateField,
+  DateTimeField,
+  DatePartsField,
+  DateTimePartsField,
+  MultilineTextField,
+  RadiosField,
+  CheckboxesField,
+  SelectField,
+  YesNoField,
+  UkAddressField,
+  Para,
+  Html,
+  InsetText,
+  Details
 }
 
 function Base (props) {
@@ -201,7 +201,7 @@ function YesNoField () {
 function Details () {
   return (
     <Base>
-      {`▶ `}<span className='line details' />
+      {'▶ '}<span className='line details' />
     </Base>
   )
 }
@@ -252,15 +252,21 @@ export class Component extends React.Component {
 
     return (
       <div>
-        <div className='component govuk-!-padding-2'
-          onClick={(e) => this.showEditor(e, true)}>
+        <div
+          className='component govuk-!-padding-2'
+          onClick={(e) => this.showEditor(e, true)}
+        >
           <DragHandle />
           <TagName />
         </div>
-        <Flyout title='Edit Component' show={this.state.showEditor}
-          onHide={e => this.showEditor(e, false)}>
-          <ComponentEdit component={component} page={page} data={data}
-            onEdit={e => this.setState({ showEditor: false })} />
+        <Flyout
+          title='Edit Component' show={this.state.showEditor}
+          onHide={e => this.showEditor(e, false)}
+        >
+          <ComponentEdit
+            component={component} page={page} data={data}
+            onEdit={e => this.setState({ showEditor: false })}
+          />
         </Flyout>
       </div>
     )
