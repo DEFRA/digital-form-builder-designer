@@ -18,7 +18,7 @@ function getLayout (pages, el) {
 
   // Set an object for the graph label
   g.setGraph({
-    rankdir: 'LR',
+    rankdir: 'TB',
     marginx: 50,
     marginy: 150,
     ranksep: 160
@@ -42,35 +42,35 @@ function getLayout (pages, el) {
   })
 
   // Add edges to the graph.
-  // pages.forEach((page) => {
-  //   if (Array.isArray(page.next)) {
-  //     page.next.forEach((next) => {
-  //       // The linked node (next page) may not exist if it's filtered
-  //       const exists = pages.find((page) => page.path === next.path)
-  //       if (exists) {
-  //         g.setEdge(page.path, next.path)
-  //       }
-  //     })
-  //   }
-  // })
-
-  for (let i = 0; i < pages.length; i++) {
-    const page1 = pages[i]
-
-    if (i !== (pages.length - 1)) {
-      g.setEdge(page1.path, pages[i + 1].path)
-    }
-
-    if (page1.group) {
-      for (let j = i + 1; j < pages.length; j++) {
-        const page2 = pages[j]
-
-        if (page2.group === page1.group) {
-          g.setEdge(page1.path, page2.path)
+  pages.forEach((page) => {
+    if (Array.isArray(page.next)) {
+      page.next.forEach((next) => {
+        // The linked node (next page) may not exist if it's filtered
+        const exists = pages.find((page) => page.path === next.path)
+        if (exists) {
+          g.setEdge(page.path, next.path)
         }
-      }
+      })
     }
-  }
+  })
+
+  // for (let i = 0; i < pages.length; i++) {
+  //   const page1 = pages[i]
+
+  //   if (i !== (pages.length - 1)) {
+  //     g.setEdge(page1.path, pages[i + 1].path)
+  //   }
+
+  //   if (page1.group) {
+  //     for (let j = i + 1; j < pages.length; j++) {
+  //       const page2 = pages[j]
+
+  //       if (page2.group === page1.group) {
+  //         g.setEdge(page1.path, page2.path)
+  //       }
+  //     }
+  //   }
+  // }
 
   dagre.layout(g)
 

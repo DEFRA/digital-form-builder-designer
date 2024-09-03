@@ -58,13 +58,13 @@ class Page extends React.Component {
     const classNames = ['page']
     const style = {}
 
-    // if (conditional) {
-    //   classNames.push('conditional')
-    // }
+    if (conditional) {
+      classNames.push('conditional')
+    }
 
-    // if (group) {
-    //   style.borderRight = `solid 15px ${group.colour}`
-    // }
+    if (group) {
+      style.borderRight = `solid 15px ${group.colour}`
+    }
 
     return (
       <div
