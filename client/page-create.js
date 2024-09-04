@@ -19,7 +19,7 @@ class PageCreate extends React.Component {
     }
 
     const value = {
-      path: path
+      path
     }
 
     const title = formData.get('title').trim()
@@ -78,25 +78,29 @@ class PageCreate extends React.Component {
 
   render () {
     const { data } = this.props
-    const { sections } = data
+    const { sections, groups, conditions } = data
 
     return (
       <form onSubmit={e => this.onSubmit(e)} autoComplete='off'>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='page-path'>Path</label>
-          <span className='govuk-hint'>E.g. /your-occupation or /personal-details/date-of-birth</span>
-          <input className='govuk-input' id='page-path' name='path'
+          <div className='govuk-hint'>E.g. /your-occupation or /personal-details/date-of-birth</div>
+          <input
+            className='govuk-input' id='page-path' name='path'
             type='text' required
-            onChange={e => e.target.setCustomValidity('')} />
+            onChange={e => e.target.setCustomValidity('')}
+          />
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='page-title'>Title (optional)</label>
-          <span id='page-title-hint' className='govuk-hint'>
-            If not supplied, the title of the first question will be used.
-          </span>
-          <input className='govuk-input' id='page-title' name='title'
-            type='text' aria-describedby='page-title-hint' />
+          <div id='page-title-hint' className='govuk-hint'>
+            If not supplied, the title of the first question will be used
+          </div>
+          <input
+            className='govuk-input' id='page-title' name='title'
+            type='text' aria-describedby='page-title-hint'
+          />
         </div>
 
         <div className='govuk-form-group'>
@@ -108,21 +112,33 @@ class PageCreate extends React.Component {
         </div>
 
         <div className='govuk-form-group'>
-          <label className='govuk-label govuk-label--s' htmlFor='page-controller'>Controller (optional)</label>
-          <span id='page-controller-hint' className='govuk-hint'>
-            JavaScript Page controller class file path
-          </span>
-          <input className='govuk-input' id='page-controller' name='controller'
-            type='text' aria-describedby='page-controller-hint' />
+          <label className='govuk-label govuk-label--s' htmlFor='page-group'>Group (optional)</label>
+          <select className='govuk-select' id='page-group' name='group'>
+            <option />
+            {groups.map(group => (<option key={group.title} value={group.title}>{group.title}</option>))}
+          </select>
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='page-condition'>Condition (optional)</label>
-          <span id='page-condition-hint' className='govuk-hint'>
-            The page will only be used if the expression evaluates to truthy.
-          </span>
-          <input className='govuk-input' id='page-condition' name='condition'
-            type='text' aria-describedby='page-condition-hint' />
+          <div id='page-condition-hint' className='govuk-hint'>
+            The page will only be used if the expression evaluates to truthy
+          </div>
+          <select className='govuk-select' id='page-condition' name='condition'>
+            <option />
+            {conditions.map(condition => (<option key={condition.name} value={condition.name}>{condition.name}</option>))}
+          </select>
+        </div>
+
+        <div className='govuk-form-group'>
+          <label className='govuk-label govuk-label--s' htmlFor='page-controller'>Controller (optional)</label>
+          <div id='page-controller-hint' className='govuk-hint'>
+            JavaScript Page controller class file path
+          </div>
+          <input
+            className='govuk-input' id='page-controller' name='controller'
+            type='text' aria-describedby='page-controller-hint'
+          />
         </div>
 
         <button type='submit' className='govuk-button'>Save</button>

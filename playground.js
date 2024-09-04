@@ -6,7 +6,7 @@ module.exports = {
   plugin: {
     name: pkg.name,
     version: pkg.version,
-    dependencies: 'vision',
+    dependencies: '@hapi/vision',
     register: (server, options) => {
       const { playgroundModel } = options
 
@@ -46,9 +46,9 @@ module.exports = {
             return getData(request)
           },
           validate: {
-            query: {
+            query: joi.object().keys({
               format: joi.boolean()
-            }
+            })
           }
         }
       })
@@ -60,7 +60,7 @@ module.exports = {
         options: {
           handler: async (request, h) => {
             try {
-              const result = joi.validate(request.payload, schema, { abortEarly: false })
+              const result = schema.validate(request.payload, { abortEarly: false })
 
               if (result.error) {
                 throw new Error('Schema validation failed')

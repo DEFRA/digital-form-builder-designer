@@ -5,25 +5,25 @@ import ComponentEdit from './component-edit'
 const DragHandle = SortableHandle(() => <span className='drag-handle'>&#9776;</span>)
 
 export const componentTypes = {
-  'TextField': TextField,
-  'TelephoneNumberField': TelephoneNumberField,
-  'NumberField': NumberField,
-  'EmailAddressField': EmailAddressField,
-  'TimeField': TimeField,
-  'DateField': DateField,
-  'DateTimeField': DateTimeField,
-  'DatePartsField': DatePartsField,
-  'DateTimePartsField': DateTimePartsField,
-  'MultilineTextField': MultilineTextField,
-  'RadiosField': RadiosField,
-  'CheckboxesField': CheckboxesField,
-  'SelectField': SelectField,
-  'YesNoField': YesNoField,
-  'UkAddressField': UkAddressField,
-  'Para': Para,
-  'Html': Html,
-  'InsetText': InsetText,
-  'Details': Details
+  TextField,
+  TelephoneNumberField,
+  NumberField,
+  EmailAddressField,
+  TimeField,
+  DateField,
+  DateTimeField,
+  DatePartsField,
+  DateTimePartsField,
+  MultilineTextField,
+  RadiosField,
+  CheckboxesField,
+  SelectField,
+  YesNoField,
+  UkAddressField,
+  Para,
+  Html,
+  InsetText,
+  Details
 }
 
 function Base (props) {
@@ -95,7 +95,7 @@ function DateField () {
   return (
     <ComponentField>
       <div className='box dropdown'>
-        <span className='govuk-body govuk-!-font-size-14'>dd/mm/yyyy</span>
+        <span className='govuk-body govuk-!-font-size-16'>dd/mm/yyyy</span>
       </div>
     </ComponentField>
   )
@@ -105,7 +105,7 @@ function DateTimeField () {
   return (
     <ComponentField>
       <div className='box large dropdown'>
-        <span className='govuk-body govuk-!-font-size-14'>dd/mm/yyyy hh:mm</span>
+        <span className='govuk-body govuk-!-font-size-16'>dd/mm/yyyy hh:mm</span>
       </div>
     </ComponentField>
   )
@@ -115,7 +115,7 @@ function TimeField () {
   return (
     <ComponentField>
       <div className='box'>
-        <span className='govuk-body govuk-!-font-size-14'>hh:mm</span>
+        <span className='govuk-body govuk-!-font-size-16'>hh:mm</span>
       </div>
     </ComponentField>
   )
@@ -201,7 +201,7 @@ function YesNoField () {
 function Details () {
   return (
     <Base>
-      {`▶ `}<span className='line details' />
+      {'▶ '}<span className='line details' />
     </Base>
   )
 }
@@ -252,15 +252,21 @@ export class Component extends React.Component {
 
     return (
       <div>
-        <div className='component govuk-!-padding-2'
-          onClick={(e) => this.showEditor(e, true)}>
+        <div
+          className='component govuk-!-padding-2'
+          onClick={(e) => this.showEditor(e, true)}
+        >
           <DragHandle />
           <TagName />
         </div>
-        <Flyout title='Edit Component' show={this.state.showEditor}
-          onHide={e => this.showEditor(e, false)}>
-          <ComponentEdit component={component} page={page} data={data}
-            onEdit={e => this.setState({ showEditor: false })} />
+        <Flyout
+          title='Edit Component' show={this.state.showEditor}
+          onHide={e => this.showEditor(e, false)}
+        >
+          <ComponentEdit
+            component={component} page={page} data={data}
+            onEdit={e => this.setState({ showEditor: false })}
+          />
         </Flyout>
       </div>
     )

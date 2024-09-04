@@ -1,5 +1,4 @@
 import React from 'react'
-import Editor from './editor'
 import { clone } from './helpers'
 
 class LinkEdit extends React.Component {
@@ -11,8 +10,8 @@ class LinkEdit extends React.Component {
     const link = page.next.find(n => n.path === edge.target)
 
     this.state = {
-      page: page,
-      link: link
+      page,
+      link
     }
   }
 
@@ -70,7 +69,6 @@ class LinkEdit extends React.Component {
   }
 
   render () {
-    const { link } = this.state
     const { data, edge } = this.props
     const { pages } = data
 
@@ -91,17 +89,6 @@ class LinkEdit extends React.Component {
             {pages.map(page => (<option key={page.path} value={page.path}>{page.path}</option>))}
           </select>
         </div>
-
-        {/* <div className='govuk-form-group'>
-          <label className='govuk-label govuk-label--s' htmlFor='link-condition'>Condition (optional)</label>
-          <span id='link-condition-hint' className='govuk-hint'>
-            The link will only be used if the expression evaluates to truthy.
-          </span>
-
-          <Editor name='if' value={link.if} /> */}
-          {/* <input className='govuk-input' id='link-condition' name='if'
-            type='text' defaultValue={link.if} aria-describedby='link-condition-hint' /> */}
-        {/* </div> */}
 
         <button className='govuk-button' type='submit'>Save</button>{' '}
         <button className='govuk-button' type='button' onClick={this.onClickDelete}>Delete</button>

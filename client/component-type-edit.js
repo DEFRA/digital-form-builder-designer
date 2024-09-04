@@ -1,6 +1,6 @@
 import React from 'react'
 import componentTypes from 'digital-form-builder-engine/component-types'
-import Editor from './editor';
+import Editor from './editor'
 
 function Classes (props) {
   const { component } = props
@@ -9,10 +9,13 @@ function Classes (props) {
   return (
     <div className='govuk-form-group'>
       <label className='govuk-label govuk-label--s' htmlFor='field-options.classes'>Classes</label>
-      <span className='govuk-hint'>Additional CSS classes to add to the field<br />
-      E.g. govuk-input--width-2 (or 3, 4, 5, 10, 20) or govuk-!-width-one-half (two-thirds, three-quarters etc.)</span>
-      <input className='govuk-input' id='field-options.classes' name='options.classes' type='text'
-        defaultValue={options.classes} />
+      <div className='govuk-hint'>Additional CSS classes to add to the field<br />
+        E.g. govuk-input--width-2 (or 3, 4, 5, 10, 20) or govuk-!-width-one-half (two-thirds, three-quarters etc.)
+      </div>
+      <input
+        className='govuk-input' id='field-options.classes' name='options.classes' type='text'
+        defaultValue={options.classes}
+      />
     </div>
   )
 }
@@ -25,31 +28,42 @@ function FieldEdit (props) {
     <div>
       <div className='govuk-form-group'>
         <label className='govuk-label govuk-label--s' htmlFor='field-name'>Name</label>
-        <span className='govuk-hint'>This is used as the key in the JSON output. Use `camelCasing` e.g. dateOfBirth or fullName.</span>
-        <input className='govuk-input govuk-input--width-20' id='field-name'
-          name='name' type='text' defaultValue={component.name} required pattern='^\S+' />
+        <div className='govuk-hint'>This is used as the key in the JSON output. Use `camelCasing` e.g. dateOfBirth or fullName.</div>
+        <input
+          className='govuk-input govuk-input--width-20' id='field-name'
+          name='name' type='text' defaultValue={component.name} required pattern='^\S+'
+        />
       </div>
 
       <div className='govuk-form-group'>
         <label className='govuk-label govuk-label--s' htmlFor='field-title'>Title</label>
-        <span className='govuk-hint'>This is the title text displayed on the page</span>
-        <input className='govuk-input' id='field-title' name='title' type='text'
-          defaultValue={component.title} required />
+        <div className='govuk-hint'>This is the title text displayed on the page</div>
+        <input
+          className='govuk-input' id='field-title' name='title' type='text'
+          defaultValue={component.title} required
+        />
       </div>
 
       <div className='govuk-form-group'>
         <label className='govuk-label govuk-label--s' htmlFor='field-hint'>Hint (optional)</label>
-        <span className='govuk-hint'>The hint can include HTML</span>
-        <textarea className='govuk-textarea' id='field-hint' name='hint'
-          defaultValue={component.hint} rows='2' />
+        <div className='govuk-hint'>The hint can include HTML</div>
+        <textarea
+          className='govuk-textarea' id='field-hint' name='hint'
+          defaultValue={component.hint} rows='2'
+        />
       </div>
 
       <div className='govuk-checkboxes govuk-form-group'>
         <div className='govuk-checkboxes__item'>
-          <input className='govuk-checkboxes__input' id='field-options.required'
-            name='options.required' type='checkbox' defaultChecked={options.required === false} />
-          <label className='govuk-label govuk-checkboxes__label'
-            htmlFor='field-options.required'>Optional</label>
+          <input
+            className='govuk-checkboxes__input' id='field-options.required'
+            name='options.required' type='checkbox' defaultChecked={options.required === false}
+          />
+          <label
+            className='govuk-label govuk-checkboxes__label'
+            htmlFor='field-options.required'
+          >Optional
+          </label>
         </div>
       </div>
 
@@ -71,27 +85,67 @@ function TextFieldEdit (props) {
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-schema.max'>Max length</label>
-          <span className='govuk-hint'>Specifies the maximum number of characters</span>
-          <input className='govuk-input govuk-input--width-3' data-cast='number'
+          <div className='govuk-hint'>Specifies the maximum number of characters</div>
+          <input
+            className='govuk-input govuk-input--width-3' data-cast='number'
             id='field-schema.max' name='schema.max'
-            defaultValue={schema.max} type='number' />
+            defaultValue={schema.max} type='number'
+          />
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-schema.min'>Min length</label>
-          <span className='govuk-hint'>Specifies the minimum number of characters</span>
-          <input className='govuk-input govuk-input--width-3' data-cast='number'
+          <div className='govuk-hint'>Specifies the minimum number of characters</div>
+          <input
+            className='govuk-input govuk-input--width-3' data-cast='number'
             id='field-schema.min' name='schema.min'
-            defaultValue={schema.min} type='number' />
+            defaultValue={schema.min} type='number'
+          />
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-schema.length'>Length</label>
-          <span className='govuk-hint'>Specifies the exact text length</span>
-          <input className='govuk-input govuk-input--width-3' data-cast='number'
+          <div className='govuk-hint'>Specifies the exact text length</div>
+          <input
+            className='govuk-input govuk-input--width-3' data-cast='number'
             id='field-schema.length' name='schema.length'
-            defaultValue={schema.length} type='number' />
+            defaultValue={schema.length} type='number'
+          />
         </div>
+
+        <Classes component={component} />
+      </details>
+    </FieldEdit>
+  )
+}
+
+function EmailAddressFieldEdit (props) {
+  const { component } = props
+  const schema = component.schema || {}
+
+  return (
+    <FieldEdit component={component}>
+      <details className='govuk-details'>
+        <summary className='govuk-details__summary'>
+          <span className='govuk-details__summary-text'>more</span>
+        </summary>
+
+        <Classes component={component} />
+      </details>
+    </FieldEdit>
+  )
+}
+
+function TelephoneNumberFieldEdit (props) {
+  const { component } = props
+  const schema = component.schema || {}
+
+  return (
+    <FieldEdit component={component}>
+      <details className='govuk-details'>
+        <summary className='govuk-details__summary'>
+          <span className='govuk-details__summary-text'>more</span>
+        </summary>
 
         <Classes component={component} />
       </details>
@@ -113,24 +167,30 @@ function MultilineTextFieldEdit (props) {
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-schema.max'>Max length</label>
-          <span className='govuk-hint'>Specifies the maximum number of characters</span>
-          <input className='govuk-input govuk-input--width-3' data-cast='number'
+          <div className='govuk-hint'>Specifies the maximum number of characters</div>
+          <input
+            className='govuk-input govuk-input--width-3' data-cast='number'
             id='field-schema.max' name='schema.max'
-            defaultValue={schema.max} type='number' />
+            defaultValue={schema.max} type='number'
+          />
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-schema.min'>Min length</label>
-          <span className='govuk-hint'>Specifies the minimum number of characters</span>
-          <input className='govuk-input govuk-input--width-3' data-cast='number'
+          <div className='govuk-hint'>Specifies the minimum number of characters</div>
+          <input
+            className='govuk-input govuk-input--width-3' data-cast='number'
             id='field-schema.min' name='schema.min'
-            defaultValue={schema.min} type='number' />
+            defaultValue={schema.min} type='number'
+          />
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-options.rows'>Rows</label>
-          <input className='govuk-input govuk-input--width-3' id='field-options.rows' name='options.rows' type='text'
-            data-cast='number' defaultValue={options.rows} />
+          <input
+            className='govuk-input govuk-input--width-3' id='field-options.rows' name='options.rows' type='text'
+            data-cast='number' defaultValue={options.rows}
+          />
         </div>
 
         <Classes component={component} />
@@ -152,26 +212,35 @@ function NumberFieldEdit (props) {
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-schema.min'>Min</label>
-          <span className='govuk-hint'>Specifies the minimum value</span>
-          <input className='govuk-input govuk-input--width-3' data-cast='number'
+          <div className='govuk-hint'>Specifies the minimum value</div>
+          <input
+            className='govuk-input govuk-input--width-3' data-cast='number'
             id='field-schema.min' name='schema.min'
-            defaultValue={schema.min} type='number' />
+            defaultValue={schema.min} type='number'
+          />
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-schema.max'>Max</label>
-          <span className='govuk-hint'>Specifies the maximum value</span>
-          <input className='govuk-input govuk-input--width-3' data-cast='number'
+          <div className='govuk-hint'>Specifies the maximum value</div>
+          <input
+            className='govuk-input govuk-input--width-3' data-cast='number'
             id='field-schema.max' name='schema.max'
-            defaultValue={schema.max} type='number' />
+            defaultValue={schema.max} type='number'
+          />
         </div>
 
         <div className='govuk-checkboxes govuk-form-group'>
           <div className='govuk-checkboxes__item'>
-            <input className='govuk-checkboxes__input' id='field-schema.integer' data-cast='boolean'
-              name='schema.integer' type='checkbox' defaultChecked={schema.integer === true} />
-            <label className='govuk-label govuk-checkboxes__label'
-              htmlFor='field-schema.integer'>Integer</label>
+            <input
+              className='govuk-checkboxes__input' id='field-schema.integer' data-cast='boolean'
+              name='schema.integer' type='checkbox' defaultChecked={schema.integer === true}
+            />
+            <label
+              className='govuk-label govuk-checkboxes__label'
+              htmlFor='field-schema.integer'
+            >Integer
+            </label>
           </div>
         </div>
 
@@ -191,8 +260,10 @@ function SelectFieldEdit (props) {
       <div>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-options.list'>List</label>
-          <select className='govuk-select govuk-input--width-10' id='field-options.list' name='options.list'
-            defaultValue={options.list} required>
+          <select
+            className='govuk-select govuk-input--width-10' id='field-options.list' name='options.list'
+            defaultValue={options.list} required
+          >
             <option />
             {lists.map(list => {
               return <option key={list.name} value={list.name}>{list.title}</option>
@@ -216,8 +287,10 @@ function RadiosFieldEdit (props) {
       <div>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-options.list'>List</label>
-          <select className='govuk-select govuk-input--width-10' id='field-options.list' name='options.list'
-            defaultValue={options.list} required>
+          <select
+            className='govuk-select govuk-input--width-10' id='field-options.list' name='options.list'
+            defaultValue={options.list} required
+          >
             <option />
             {lists.map(list => {
               return <option key={list.name} value={list.name}>{list.title}</option>
@@ -228,10 +301,15 @@ function RadiosFieldEdit (props) {
 
       <div className='govuk-checkboxes govuk-form-group'>
         <div className='govuk-checkboxes__item'>
-          <input className='govuk-checkboxes__input' id='field-options.bold' data-cast='boolean'
-            name='options.bold' type='checkbox' defaultChecked={options.bold === true} />
-          <label className='govuk-label govuk-checkboxes__label'
-            htmlFor='field-options.bold'>Bold labels</label>
+          <input
+            className='govuk-checkboxes__input' id='field-options.bold' data-cast='boolean'
+            name='options.bold' type='checkbox' defaultChecked={options.bold === true}
+          />
+          <label
+            className='govuk-label govuk-checkboxes__label'
+            htmlFor='field-options.bold'
+          >Bold labels
+          </label>
         </div>
       </div>
     </FieldEdit>
@@ -248,8 +326,10 @@ function CheckboxesFieldEdit (props) {
       <div>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='field-options.list'>List</label>
-          <select className='govuk-select govuk-input--width-10' id='field-options.list' name='options.list'
-            defaultValue={options.list} required>
+          <select
+            className='govuk-select govuk-input--width-10' id='field-options.list' name='options.list'
+            defaultValue={options.list} required
+          >
             <option />
             {lists.map(list => {
               return <option key={list.name} value={list.name}>{list.title}</option>
@@ -260,10 +340,15 @@ function CheckboxesFieldEdit (props) {
 
       <div className='govuk-checkboxes govuk-form-group'>
         <div className='govuk-checkboxes__item'>
-          <input className='govuk-checkboxes__input' id='field-options.bold' data-cast='boolean'
-            name='options.bold' type='checkbox' defaultChecked={options.bold === true} />
-          <label className='govuk-label govuk-checkboxes__label'
-            htmlFor='field-options.bold'>Bold labels</label>
+          <input
+            className='govuk-checkboxes__input' id='field-options.bold' data-cast='boolean'
+            name='options.bold' type='checkbox' defaultChecked={options.bold === true}
+          />
+          <label
+            className='govuk-label govuk-checkboxes__label'
+            htmlFor='field-options.bold'
+          >Bold labels
+          </label>
         </div>
       </div>
     </FieldEdit>
@@ -276,10 +361,10 @@ function ParaEdit (props) {
   return (
     <div className='govuk-form-group'>
       <label className='govuk-label' htmlFor='para-content'>Content</label>
-      <span className='govuk-hint'>The content can include HTML and the `govuk-prose-scope` css class is available. Use this on a wrapping element to apply default govuk styles.</span>
+      <div className='govuk-hint'>The content can include HTML and the `govuk-prose-scope` css class is available. Use this on a wrapping element to apply default govuk styles.</div>
       {/* <textarea className='govuk-textarea' id='para-content' name='content'
         defaultValue={component.content} rows='10' required /> */}
-      <Editor name='content' value={component.content} />  
+      <Editor name='content' value={component.content} />
     </div>
   )
 }
@@ -295,33 +380,37 @@ function DetailsEdit (props) {
 
       <div className='govuk-form-group'>
         <label className='govuk-label' htmlFor='details-title'>Title</label>
-        <input className='govuk-input' id='details-title' name='title'
-          defaultValue={component.title} required />
+        <input
+          className='govuk-input' id='details-title' name='title'
+          defaultValue={component.title} required
+        />
       </div>
 
       <div className='govuk-form-group'>
         <label className='govuk-label' htmlFor='details-content'>Content</label>
-        <span className='govuk-hint'>The content can include HTML and the `govuk-prose-scope` css class is available. Use this on a wrapping element to apply default govuk styles.</span>
-        <textarea className='govuk-textarea' id='details-content' name='content'
-          defaultValue={component.content} rows='10' required />
+        <div className='govuk-hint'>The content can include HTML and the `govuk-prose-scope` css class is available. Use this on a wrapping element to apply default govuk styles.</div>
+        <textarea
+          className='govuk-textarea' id='details-content' name='content'
+          defaultValue={component.content} rows='10' required
+        />
       </div>
     </div>
   )
 }
 
 const componentTypeEditors = {
-  'TextFieldEdit': TextFieldEdit,
-  'EmailAddressFieldEdit': TextFieldEdit,
-  'TelephoneNumberFieldEdit': TextFieldEdit,
-  'NumberFieldEdit': NumberFieldEdit,
-  'MultilineTextFieldEdit': MultilineTextFieldEdit,
-  'SelectFieldEdit': SelectFieldEdit,
-  'RadiosFieldEdit': RadiosFieldEdit,
-  'CheckboxesFieldEdit': CheckboxesFieldEdit,
-  'ParaEdit': ParaEdit,
-  'HtmlEdit': HtmlEdit,
-  'InsetTextEdit': InsetTextEdit,
-  'DetailsEdit': DetailsEdit
+  TextFieldEdit,
+  EmailAddressFieldEdit,
+  TelephoneNumberFieldEdit,
+  NumberFieldEdit,
+  MultilineTextFieldEdit,
+  SelectFieldEdit,
+  RadiosFieldEdit,
+  CheckboxesFieldEdit,
+  ParaEdit,
+  HtmlEdit,
+  InsetTextEdit,
+  DetailsEdit
 }
 
 class ComponentTypeEdit extends React.Component {

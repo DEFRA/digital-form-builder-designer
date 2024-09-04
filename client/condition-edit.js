@@ -92,13 +92,18 @@ class ConditionEdit extends React.Component {
 
     return (
       <form onSubmit={e => this.onSubmit(e)} autoComplete='off'>
-        <a className="govuk-back-link" href='#'
-          onClick={e => this.props.onCancel(e)}>Back</a>
+        <a
+          className='govuk-back-link' href='#'
+          onClick={e => this.props.onCancel(e)}
+        >Back
+        </a>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='condition-name'>Name</label>
-          <input className='govuk-input' id='condition-name' name='name'
+          <input
+            className='govuk-input' id='condition-name' name='name'
             type='text' defaultValue={condition.name} required pattern='^\S+'
-            onBlur={this.onBlurName} />
+            onBlur={this.onBlurName}
+          />
         </div>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='condition-value'>Value</label>

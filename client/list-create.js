@@ -63,26 +63,35 @@ class ListCreate extends React.Component {
 
     return (
       <form onSubmit={e => this.onSubmit(e)} autoComplete='off'>
-        <a className="govuk-back-link" href='#'
-          onClick={e => this.props.onCancel(e)}>Back</a>
+        <a
+          className='govuk-back-link' href='#'
+          onClick={e => this.props.onCancel(e)}
+        >Back
+        </a>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='list-name'>Name</label>
-          <input className='govuk-input' id='list-name' name='name'
+          <input
+            className='govuk-input' id='list-name' name='name'
             type='text' required pattern='^\S+'
-            onBlur={this.onBlurName} />
+            onBlur={this.onBlurName}
+          />
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='list-title'>Title</label>
-          <input className='govuk-input' id='list-title' name='title'
-            type='text' required />
+          <input
+            className='govuk-input' id='list-title' name='title'
+            type='text' required
+          />
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='list-type'>Value type</label>
-          <select className='govuk-select' id='list-type' name='type'
+          <select
+            className='govuk-select' id='list-type' name='type'
             value={state.type}
-            onChange={e => this.setState({ type: e.target.value })}>
+            onChange={e => this.setState({ type: e.target.value })}
+          >
             <option value='string'>String</option>
             <option value='number'>Number</option>
           </select>

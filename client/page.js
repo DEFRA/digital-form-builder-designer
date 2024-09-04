@@ -49,44 +49,72 @@ class Page extends React.Component {
 
   render () {
     const { page, data } = this.props
-    const { sections } = data
+    const { sections, groups } = data
     const formComponents = page.components.filter(comp => componentTypes.find(type => type.name === comp.type).subType === 'field')
     const pageTitle = page.title || (formComponents.length === 1 && page.components[0] === formComponents[0] ? formComponents[0].title : page.title)
     const section = page.section && sections.find(section => section.name === page.section)
-    const conditional = !!page.condition
+    const group = page.group && groups.find(group => group.name === page.group)
+    const conditional = !!page.condition || !!group?.condition
+    const classNames = ['page']
+    const style = {}
+
+    if (conditional) {
+      classNames.push('conditional')
+    }
+
+    if (group) {
+      style.borderRight = `solid 15px ${group.colour}`
+    }
 
     return (
-      <div id={page.path} className={`page${conditional ? ' conditional' : ''}`}
-        title={page.path} style={this.props.layout}>
-        <div className='handle' onClick={(e) => this.showEditor(e, true)} />
+      <div
+        id={page.path} className={classNames.join(' ')}
+        title={page.path} style={this.props.layout}
+      >
+        <div className='handle' onClick={(e) => this.showEditor(e, true)} style={style} />
         <div className='govuk-!-padding-top-2 govuk-!-padding-left-2 govuk-!-padding-right-2'>
           <h3 className='govuk-heading-s'>
-            {section && <span className='govuk-caption-m govuk-!-font-size-14'>{section.title}</span>}
+            {section && <span className='govuk-caption-m govuk-!-font-size-16'>{section.title}</span>}
             {pageTitle}
           </h3>
         </div>
 
-        <SortableList page={page} data={data} pressDelay={200}
+        <SortableList
+          page={page} data={data} pressDelay={200}
           onSortEnd={this.onSortEnd} lockAxis='y' helperClass='dragging'
-          lockToContainerEdges useDragHandle />
+          lockToContainerEdges useDragHandle
+        />
 
         <div className='govuk-!-padding-2'>
-          <a className='preview pull-right govuk-body govuk-!-font-size-14'
-            href={page.path} target='preview'>Open</a>
-          <div className='button active'
-            onClick={e => this.setState({ showAddComponent: true })} />
+          <a
+            className='preview pull-right govuk-body govuk-!-font-size-16'
+            href={page.path} target='preview'
+          >Open
+          </a>
+          <div
+            className='button active'
+            onClick={e => this.setState({ showAddComponent: true })}
+          />
         </div>
 
-        <Flyout title='Edit Page' show={this.state.showEditor}
-          onHide={e => this.showEditor(e, false)}>
-          <PageEdit page={page} data={data}
-            onEdit={e => this.setState({ showEditor: false })} />
+        <Flyout
+          title='Edit Page' show={this.state.showEditor}
+          onHide={e => this.showEditor(e, false)}
+        >
+          <PageEdit
+            page={page} data={data}
+            onEdit={e => this.setState({ showEditor: false })}
+          />
         </Flyout>
 
-        <Flyout title='Add Component' show={this.state.showAddComponent}
-          onHide={() => this.setState({ showAddComponent: false })}>
-          <ComponentCreate page={page} data={data}
-            onCreate={e => this.setState({ showAddComponent: false })} />
+        <Flyout
+          title='Add Component' show={this.state.showAddComponent}
+          onHide={() => this.setState({ showAddComponent: false })}
+        >
+          <ComponentCreate
+            page={page} data={data}
+            onCreate={e => this.setState({ showAddComponent: false })}
+          />
         </Flyout>
       </div>
     )

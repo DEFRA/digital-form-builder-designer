@@ -9,7 +9,7 @@ class SectionsEdit extends React.Component {
     e.preventDefault()
 
     this.setState({
-      section: section
+      section
     })
   }
 
@@ -28,33 +28,41 @@ class SectionsEdit extends React.Component {
 
     return (
       <div className='govuk-body'>
-        {!section ? (
-          <div>
-            {this.state.showAddSection ? (
-              <SectionCreate data={data}
-                onCreate={e => this.setState({ showAddSection: false })}
-                onCancel={e => this.setState({ showAddSection: false })} />
-            ) : (
-              <ul className='govuk-list'>
-                {sections.map((section, index) => (
-                  <li key={section.name}>
-                    <a href='#' onClick={e => this.onClickSection(e, section)}>
-                      {section.title}
-                    </a>
-                  </li>
-                ))}
-                <li>
-                  <hr />
-                  <a href='#' onClick={e => this.onClickAddSection(e)}>Add section</a>
-                </li>
-              </ul>
+        {!section
+          ? (
+            <div>
+              {this.state.showAddSection
+                ? (
+                  <SectionCreate
+                    data={data}
+                    onCreate={e => this.setState({ showAddSection: false })}
+                    onCancel={e => this.setState({ showAddSection: false })}
+                  />
+                  )
+                : (
+                  <ul className='govuk-list'>
+                    {sections.map((section, index) => (
+                      <li key={section.name}>
+                        <a className='govuk-link govuk-link--no-visited-state' href='#' onClick={e => this.onClickSection(e, section)}>
+                          {section.title}
+                        </a>
+                      </li>
+                    ))}
+                    <li>
+                      <hr />
+                      <a className='govuk-link govuk-link--no-visited-state' href='#' onClick={e => this.onClickAddSection(e)}>Add section</a>
+                    </li>
+                  </ul>
+                  )}
+            </div>
+            )
+          : (
+            <SectionEdit
+              section={section} data={data}
+              onEdit={e => this.setState({ section: null })}
+              onCancel={e => this.setState({ section: null })}
+            />
             )}
-          </div>
-        ) : (
-          <SectionEdit section={section} data={data}
-            onEdit={e => this.setState({ section: null })}
-            onCancel={e => this.setState({ section: null })} />
-        )}
       </div>
     )
   }

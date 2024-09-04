@@ -11,6 +11,7 @@ class PageEdit extends React.Component {
     const newPath = formData.get('path').trim()
     const title = formData.get('title').trim()
     const section = formData.get('section').trim()
+    const group = formData.get('group').trim()
     const controller = formData.get('controller').trim()
     const condition = formData.get('condition').trim()
     const { data, page } = this.props
@@ -40,6 +41,12 @@ class PageEdit extends React.Component {
       copyPage.section = section
     } else {
       delete copyPage.section
+    }
+
+    if (group) {
+      copyPage.group = group
+    } else {
+      delete copyPage.group
     }
 
     if (controller) {
@@ -79,7 +86,7 @@ class PageEdit extends React.Component {
     // Remove all links to the page
     copy.pages.forEach((p, index) => {
       if (index !== copyPageIdx && Array.isArray(p.next)) {
-        for (var i = p.next.length - 1; i >= 0; i--) {
+        for (let i = p.next.length - 1; i >= 0; i--) {
           const next = p.next[i]
           if (next.path === page.path) {
             p.next.splice(i, 1)
@@ -103,24 +110,28 @@ class PageEdit extends React.Component {
 
   render () {
     const { data, page } = this.props
-    const { sections } = data
+    const { sections, groups, conditions } = data
 
     return (
       <form onSubmit={this.onSubmit} autoComplete='off'>
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='page-path'>Path</label>
-          <input className='govuk-input' id='page-path' name='path'
+          <input
+            className='govuk-input' id='page-path' name='path'
             type='text' defaultValue={page.path}
-            onChange={e => e.target.setCustomValidity('')} />
+            onChange={e => e.target.setCustomValidity('')}
+          />
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='page-title'>Title (optional)</label>
-          <span id='page-title-hint' className='govuk-hint'>
-            If not supplied, the title of the first question will be used.
-          </span>
-          <input className='govuk-input' id='page-title' name='title'
-            type='text' defaultValue={page.title} aria-describedby='page-title-hint' />
+          <div id='page-title-hint' className='govuk-hint'>
+            If not supplied, the title of the first question will be used
+          </div>
+          <input
+            className='govuk-input' id='page-title' name='title'
+            type='text' defaultValue={page.title} aria-describedby='page-title-hint'
+          />
         </div>
 
         <div className='govuk-form-group'>
@@ -132,21 +143,33 @@ class PageEdit extends React.Component {
         </div>
 
         <div className='govuk-form-group'>
-          <label className='govuk-label govuk-label--s' htmlFor='page-controller'>Controller (optional)</label>
-          <span id='page-controller-hint' className='govuk-hint'>
-            JavaScript Page controller class file path
-          </span>
-          <input className='govuk-input' id='page-controller' name='controller'
-            type='text' defaultValue={page.controller} aria-describedby='page-controller-hint' />
+          <label className='govuk-label govuk-label--s' htmlFor='page-group'>Group (optional)</label>
+          <select className='govuk-select' id='page-group' name='group' defaultValue={page.group}>
+            <option />
+            {groups.map(group => (<option key={group.name} value={group.name}>{group.title}</option>))}
+          </select>
         </div>
 
         <div className='govuk-form-group'>
           <label className='govuk-label govuk-label--s' htmlFor='page-condition'>Condition (optional)</label>
-          <span id='page-condition-hint' className='govuk-hint'>
-            The page will only be used if the expression evaluates to truthy.
-          </span>
-          <input className='govuk-input' id='page-condition' name='condition'
-            type='text' defaultValue={page.condition} aria-describedby='page-condition-hint' />
+          <div id='page-condition-hint' className='govuk-hint'>
+            The page will only be used if the expression evaluates to truthy
+          </div>
+          <select className='govuk-select' id='page-condition' name='condition' defaultValue={page.condition}>
+            <option />
+            {conditions.map(condition => (<option key={condition.name} value={condition.name}>{condition.name}</option>))}
+          </select>
+        </div>
+
+        <div className='govuk-form-group'>
+          <label className='govuk-label govuk-label--s' htmlFor='page-controller'>Controller (optional)</label>
+          <div id='page-controller-hint' className='govuk-hint'>
+            JavaScript Page controller class file path
+          </div>
+          <input
+            className='govuk-input' id='page-controller' name='controller'
+            type='text' defaultValue={page.controller} aria-describedby='page-controller-hint'
+          />
         </div>
 
         <button className='govuk-button' type='submit'>Save</button>{' '}

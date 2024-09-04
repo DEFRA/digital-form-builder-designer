@@ -35,8 +35,10 @@ class ComponentCreate extends React.Component {
         <form onSubmit={e => this.onSubmit(e)} autoComplete='off'>
           <div className='govuk-form-group'>
             <label className='govuk-label govuk-label--s' htmlFor='type'>Type</label>
-            <select className='govuk-select' id='type' name='type' required
-              onChange={e => this.setState({ component: { type: e.target.value } })}>
+            <select
+              className='govuk-select' id='type' name='type' required
+              onChange={e => this.setState({ component: { type: e.target.value } })}
+            >
               <option />
               {componentTypes.map(type => {
                 return <option key={type.name} value={type.name}>{type.title}</option>
@@ -49,7 +51,8 @@ class ComponentCreate extends React.Component {
               <ComponentTypeEdit
                 page={page}
                 component={this.state.component}
-                data={data} />
+                data={data}
+              />
 
               <button type='submit' className='govuk-button'>Save</button>
             </div>

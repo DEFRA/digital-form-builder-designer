@@ -109,28 +109,35 @@ class ListItems extends React.Component {
           {items.map((item, index) => (
             <tr key={item.value + index} className='govuk-table__row' scope='row'>
               <td className='govuk-table__cell'>
-                <input className='govuk-input' name='text'
+                <input
+                  className='govuk-input' name='text'
                   type='text' defaultValue={item.text} required
-                  onBlur={this.onBlur} />
+                  onBlur={this.onBlur}
+                />
               </td>
               <td className='govuk-table__cell'>
                 {type === 'number'
                   ? (
-                    <input className='govuk-input' name='value'
+                    <input
+                      className='govuk-input' name='value'
                       type='number' defaultValue={item.value} required
-                      onBlur={this.onBlur} step='any' />
-                  )
+                      onBlur={this.onBlur} step='any'
+                    />
+                    )
                   : (
-                    <input className='govuk-input' name='value'
+                    <input
+                      className='govuk-input' name='value'
                       type='text' defaultValue={item.value} required
-                      onBlur={this.onBlur} />
-                  )
-                }
+                      onBlur={this.onBlur}
+                    />
+                    )}
               </td>
               <td className='govuk-table__cell'>
-                <input className='govuk-input' name='description'
+                <input
+                  className='govuk-input' name='description'
                   type='text' defaultValue={item.description}
-                  onBlur={this.onBlur} />
+                  onBlur={this.onBlur}
+                />
               </td>
               <td className='govuk-table__cell' width='20px'>
                 <a className='list-item-delete' onClick={() => this.removeItem(index)}>&#128465;</a>
